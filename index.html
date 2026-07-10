@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#172554" />
+  <meta name="description" content="Painel diário para gestão de prioridades, tarefas, estudo jurídico e bem-estar." />
   <title>Painel Diário — Clodoaldo</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
@@ -18,8 +19,8 @@
       <p id="todayLabel" class="muted"></p>
     </div>
     <div class="header-actions">
-      <button id="notifyBtn" class="secondary">Ativar notificações</button>
-      <button id="focusBtn" class="primary">Modo foco</button>
+      <button id="notifyBtn" class="secondary" aria-label="Ativar notificações">Ativar notificações</button>
+      <button id="focusBtn" class="primary" aria-label="Modo foco">Modo foco</button>
     </div>
   </header>
 
@@ -72,7 +73,7 @@
           <h2>Três prioridades de hoje</h2>
           <p class="muted">Nada além destas três deve competir pela sua atenção principal.</p>
         </div>
-        <button id="addPriorityBtn" class="secondary">Adicionar prioridade</button>
+        <button id="addPriorityBtn" class="secondary" aria-label="Adicionar prioridade">Adicionar prioridade</button>
       </div>
       <div id="prioritiesGrid" class="priorities-grid"></div>
     </section>
@@ -84,7 +85,7 @@
             <span class="kicker">ROTINAS</span>
             <h2>Checklist diário</h2>
           </div>
-          <button id="resetRoutineBtn" class="ghost small">Reiniciar</button>
+          <button id="resetRoutineBtn" class="ghost small" aria-label="Reiniciar rotinas">Reiniciar</button>
         </div>
         <div id="routineList" class="routine-list"></div>
       </article>
@@ -177,7 +178,7 @@
           <h2>Todas as tarefas</h2>
           <p class="muted">Use filtros para evitar sobrecarga visual.</p>
         </div>
-        <button id="addTaskBtn" class="primary">Nova tarefa</button>
+        <button id="addTaskBtn" class="primary" aria-label="Criar nova tarefa">Nova tarefa</button>
       </div>
       <div class="filters">
         <select id="filterCategory"><option value="all">Todas as áreas</option></select>
@@ -228,7 +229,7 @@
     <form id="taskForm" method="dialog">
       <div class="dialog-header">
         <h2 id="dialogTitle">Nova tarefa</h2>
-        <button type="button" id="closeDialogBtn" class="ghost">Fechar</button>
+        <button type="button" id="closeDialogBtn" class="ghost" aria-label="Fechar diálogo">Fechar</button>
       </div>
       <input type="hidden" id="taskId" />
       <label>Tarefa

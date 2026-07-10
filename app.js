@@ -63,13 +63,17 @@ function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem("painelClodoaldo"));
     return saved ? { ...defaultState, ...saved, settings: { ...defaultState.settings, ...(saved.settings || {}) } } : structuredClone(defaultState);
-  } catch {
+  } catch (e) {
     return structuredClone(defaultState);
   }
 }
 
 function saveState() {
-  localStorage.setItem("painelClodoaldo", JSON.stringify(state));
+  try {
+    localStorage.setItem("painelClodoaldo", JSON.stringify(state));
+  } catch (e) {
+    toast("Erro ao salvar alterações. Verifique o espaço de armazenamento.");
+  }
 }
 
 function dailyResetIfNeeded() {
@@ -534,7 +538,7 @@ function exportCsv() {
   const rows = [["Tarefa","Área","Prioridade","Data","Horário","Status","Processo","Pontos","Observações"]];
   state.tasks.forEach(t => rows.push([t.title,t.category,priorityLabel(t.priority),t.date,t.time,t.done?"Concluída":"Em aberto",t.process,t.points,t.notes]));
   const csv = rows.map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(",")).join("\n");
-  downloadFile(`tarefas-notion-${todayKey()}.csv`, "\ufeff" + csv, "text/csv;charset=utf-8");
+  downloadFile(`tarefas-notion-${todayKey()}.csv`, "﻿" + csv, "text/csv;charset=utf-8");
 }
 
 function exportIcs() {
@@ -546,7 +550,7 @@ function exportIcs() {
     const endDate = new Date(`${t.date}T${t.time || "09:00"}:00`);
     endDate.setMinutes(endDate.getMinutes()+30);
     const end = endDate.toISOString().replace(/[-:]/g,"").slice(0,15);
-    parts.push("BEGIN:VEVENT",`UID:${t.id}@painel-clodoaldo`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,"").split(".")[0]}Z`,`DTSTART:${start}`,`DTEND:${end}`,`SUMMARY:${escapeIcs(t.title)}`,`DESCRIPTION:${escapeIcs(`${t.category}${t.process ? " | Proc. " + t.process : ""}${t.notes ? " | " + t.notes : ""}`)}`,"END:VEVENT");
+    parts.push("BEGIN:VEVENT",`UID:${t.id}@painel-clodoaldo`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,"").split(".")[0]}Z`,`DTSTART:${start}`,`DTEND:${end}`,`SUMMARY:${escapeIcs(t.title)}`,`DESCRIPTION:${escapeIcs(`${t.category}${t.process ? " | Proc. " + t.process : ""}${t.notes ? " | " + t.notes : ""}`)}`,`END:VEVENT`);
   });
   parts.push("END:VCALENDAR");
   downloadFile(`agenda-painel-${todayKey()}.ics`, parts.join("\r\n"), "text/calendar");
